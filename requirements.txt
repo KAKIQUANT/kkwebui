@@ -1,0 +1,12 @@
+# Config & Tools
+typing
+typing-extensions
+pandas
+numpy
+seaborn
+tqdm
+streamlit
+streamlit_option_menu
+bt
+
+
