@@ -5,8 +5,6 @@ import pandas as pd
 import streamlit as st
 from task import Task, run_task, task_from_json
 
-import requests
-
 from kkweb.config import DATA_DIR
 
 # from engine.engine import Engine

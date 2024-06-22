@@ -1,4 +1,25 @@
 import streamlit as st
+import yaml
+
+# Function to load YAML configuration
+def load_config(language):
+    with open(f"cfg/config_{language}.yaml", "r", encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
+# Set default language
+default_language = "cn"
+
+# Load configuration
+config = load_config(default_language)
+
+# Setup page config as the very first Streamlit command
+st.set_page_config(
+    page_title=config["app"]["page_title"],
+    page_icon=config["app"]["page_icon"],
+    layout=config["app"]["layout"],
+)
+
+# Import other necessary modules
 from streamlit_option_menu import option_menu
 from kkweb.pages.analysis import build_page
 from kkweb.pages import create_task
@@ -10,33 +31,14 @@ import pages.about_us as page_about_us
 import pages.factor_database as page_factor_database
 import pages.data_download as page_data_download
 import pages.open_vip as page_open_vip
-import yaml
-
-
-# Function to load YAML configuration
-def load_config(language):
-    with open(f"config_{language}.yaml", "r") as f:
-        return yaml.safe_load(f)
-
-
-# Function to set up Streamlit page config
-def setup_page_config(config):
-    st.set_page_config(
-        page_title=config["app"]["page_title"],
-        page_icon=config["app"]["page_icon"],
-        layout=config["app"]["layout"],
-    )
-
 
 # Choose language
-language = st.sidebar.selectbox("Choose Language", ["en", "cn"])
+language = st.sidebar.selectbox("Choose Language", ["en", "cn"], index=["en", "cn"].index(default_language))
 st.session_state["language"] = language
 
-# Load configuration
-config = load_config(language)
-
-# Setup page config
-setup_page_config(config)
+# Reload configuration if language changes
+if language != default_language:
+    config = load_config(language)
 
 # Define the sidebar navigation
 sidebar_options = config["sidebar"]["options"]

@@ -72,64 +72,30 @@ class FactorGPTAgent:
         response = self.model.invoke(lc_messages).content
         return json.loads(response)
 
-# Define a function to handle chat response generation and streaming
-def generate_response(messages):
-    try:
-        response = client.chat.completions.create(
-            model="moonshot-v1-8k",
-            messages=messages,
-            temperature=0.3,
-            stream=True,
-        )
-
-        collected_messages = []
-        response_placeholder = st.empty()
-
-        for idx, chunk in enumerate(response):
-            chunk_message = chunk.choices[0].delta
-            if not chunk_message.content:
-                continue
-            collected_messages.append(chunk_message)
-            response_text = ''.join([m.content for m in collected_messages])
-            response_placeholder.write(response_text)
-
-        return response_text
-
-    except Exception as e:
-        logging.error(f"Error during response generation: {str(e)}")
-        raise e
-
 # Function to stream FactorGPTAgent response
 def stream_factor_response(user_prompt):
     factor_agent = FactorGPTAgent(user_prompt)
     response = factor_agent.run()
     response_message = f"因子表达式: {response['expr']}\n\n解释: {response['desc']}"
-    response_placeholder = st.empty()
-    for line in response_message.split('\n'):
-        response_placeholder.write(line)
-        time.sleep(0.1)
+    logger.info(f"Factor response: {response_message}")
     return response_message
 
 # Main function for Streamlit app
 def main():
-    st.title("Chat with LLMs Models")
-    st.sidebar.write("### General Guidelines")
+    st.title("Alpha GPT - 专注因子分析")
+    st.sidebar.write("### 说明")
     st.sidebar.write(
         """
-        - Start your query with a clear question or statement.
-        - Be specific about what you need.
-        - You can ask follow-up questions based on previous answers.
+        - 提出与因子分析相关的具体问题。
+        - 提供明确的需求描述。
+        - 如果问题不涉及因子分析，系统将拒绝回答。
         """
     )
 
     logger.info("App started")
 
-    # Sidebar for model selection
-    model = st.sidebar.selectbox("Choose a model", ["moonshot-v1-8k"])
-    logger.info(f"Model selected: {model}")
-
     # Prompt for user input and save to chat history
-    if prompt := st.chat_input("Your question"):
+    if prompt := st.chat_input("请描述您的因子分析需求"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         logger.info(f"User input: {prompt}")
 
@@ -138,41 +104,33 @@ def main():
             with st.chat_message(message["role"]):
                 st.write(message["content"])
 
-        # Generate a new response if the last message is not from the assistant
-        if st.session_state.messages[-1]["role"] != "assistant":
-            with st.chat_message("assistant"):
-                start_time = time.time()
-                logger.info("Generating response")
+        # Generate a response based on the user's input
+        with st.chat_message("assistant"):
+            start_time = time.time()
+            logger.info("Generating response")
 
-                with st.spinner("Writing..."):
-                    try:
-                        # Check if the query is related to "因子" (factor)
-                        if "因子" in prompt:
-                            response_message = stream_factor_response(prompt)
-                        else:
-                            # Generate response for the user's input
-                            messages = [{"role": msg["role"], "content": msg["content"]} for msg in st.session_state.messages]
-                            system_message = {
-                                "role": "system",
-                                "content": "你是 Kimi，由 Moonshot AI 提供的人工智能助手，你更擅长中文和英文的对话。你会为用户提供安全，有帮助，准确的回答。同时，你会拒绝一切涉及恐怖主义，种族歧视，黄色暴力等问题的回答。Moonshot AI 为专有名词，不可翻译成其他语言。"
-                            }
-                            messages.insert(0, system_message)
-                            response_message = generate_response(messages)
-                        
-                        duration = time.time() - start_time
-                        response_message_with_duration = (
-                            f"{response_message}\n\nDuration: {duration:.2f} seconds"
-                        )
-                        st.session_state.messages.append(
-                            {"role": "assistant", "content": response_message_with_duration}
-                        )
-                        st.write(f"Duration: {duration:.2f} seconds")
-                        logger.info(f"Response: {response_message}, Duration: {duration:.2f} s")
-
-                    except Exception as e:
-                        st.session_state.messages.append({"role": "assistant", "content": str(e)})
-                        st.error("An error occurred while generating the response.")
-                        logger.error(f"Error: {str(e)}")
+            with st.spinner("生成中..."):
+                try:
+                    # Check if the query is related to "因子" (factor)
+                    if "因子" in prompt:
+                        response_message = stream_factor_response(prompt)
+                        st.write(response_message)
+                    else:
+                        response_message = "这个系统只回答与因子分析相关的问题。"
+                        st.write(response_message)
+                    
+                    duration = time.time() - start_time
+                    response_message_with_duration = (
+                        f"{response_message}\n\nDuration: {duration:.2f} seconds"
+                    )
+                    st.session_state.messages.append(
+                        {"role": "assistant", "content": response_message_with_duration}
+                    )
+                    logger.info(f"Response: {response_message}, Duration: {duration:.2f} s")
+                except Exception as e:
+                    st.session_state.messages.append({"role": "assistant", "content": str(e)})
+                    st.error("生成响应时发生错误。")
+                    logger.error(f"Error: {str(e)}")
 
 # Run the app
 if __name__ == "__main__":

@@ -15,17 +15,17 @@ import pages.open_vip as open_vip
 
 # Function to load YAML configuration
 def load_config(language):
-    with open(f"config_{language}.yaml", "r") as f:
+    with open(f"cfg/config_{language}.yaml", "r") as f:
         return yaml.safe_load(f)
 
 
-# Function to set up Streamlit page config
-def setup_config(config):
-    st.set_config(
-        title=config["app"]["title"],
-        icon=config["app"]["icon"],
-        layout=config["app"]["layout"],
-    )
+# # Function to set up Streamlit page config
+# def setup_config(config):
+#     st.set_page_config(
+#         page_title=config["app"]["page_title"],
+#         page_icon=config["app"]["page_icon"],
+#         layout=config["app"]["layout"],
+#     )
 
 
 # Choose language
@@ -36,7 +36,7 @@ st.session_state["language"] = language
 config = load_config(language)
 
 # Setup page config
-setup_config(config)
+# setup_config(config)
 
 
 # Define pages using st.Page
@@ -49,7 +49,7 @@ pages = [
         title=config["sidebar"]["options"][2]["name"],
     ),
     st.Page(
-        ai_factor.show_ai_factor_page,
+        ai_factor,
         title=config["sidebar"]["options"][1]["name"],
     ),
     st.Page(
