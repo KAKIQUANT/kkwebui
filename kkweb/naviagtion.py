@@ -1,16 +1,16 @@
 import streamlit as st
 import yaml
 # Import page functions
-from pages.analysis import build_page as time_series_page
-from pages import create_task
-from pages.strategies import strategies
-import pages.single_factor_analysis as single_factor
-import pages.factor_dashboard as factor_data
+from streamlit_pages.analysis import build_page as time_series_page
+from streamlit_pages import create_task
+from streamlit_pages.strategies import strategies
+import streamlit_pages.single_factor_analysis as single_factor
+import streamlit_pages.factor_dashboard as factor_data
 import kkweb.pages.alpha_gpt.alpha_gpt as ai_factor
-import pages.about_us as about_us
-import pages.factor_database as factor_database
-import pages.data_download as data_download
-import pages.open_vip as open_vip
+import streamlit_pages.about_us as about_us
+import streamlit_pages.factor_database as factor_database
+import streamlit_pages.data_download as data_download
+import streamlit_pages.open_vip as open_vip
 
 
 # Function to load YAML configuration
