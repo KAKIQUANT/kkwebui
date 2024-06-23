@@ -10,4 +10,10 @@ streamlit_option_menu
 bt
 pyyaml
 empyrical
+loguru
+openai
+langchain_community
+empyrical
+statsmodels
+IPython
 
