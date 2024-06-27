@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/task.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +88,8 @@
       <option name="presentableId" value="Default" />
       <updated>1719112215320</updated>
       <workItem from="1719112216388" duration="1173000" />
-      <workItem from="1719114287819" duration="1187000" />
+      <workItem from="1719114287819" duration="2658000" />
+      <workItem from="1719334131678" duration="2164000" />
     </task>
     <servers />
   </component>
@@ -98,6 +97,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719114292515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719366314990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
   </component>
 </project>

@@ -11,6 +11,7 @@ bt
 pyyaml
 empyrical
 loguru
+plotly
 openai
 langchain_community
 empyrical
