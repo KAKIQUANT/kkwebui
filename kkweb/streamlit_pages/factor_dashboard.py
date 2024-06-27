@@ -1,88 +1,139 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import plotly.express as px
-import plotly.graph_objects as go
 import altair as alt
 import time
+import threading
+import queue
+
+def generate_charts(chart_queue, other_stocks_data, stop_event):
+    while not stop_event.is_set():
+        for stock, data in other_stocks_data.items():
+            df_stock = pd.DataFrame(data)
+            chart = alt.Chart(df_stock).mark_line().encode(
+                x='date:T',
+                y='value:Q'
+            ).properties(title=f'{stock}表现折线图')
+            chart_queue.put(chart)
+            time.sleep(5)
+            if stop_event.is_set():
+                break
+    chart_queue.put(None)  # Signal the end of chart generation
+
 def dashboard():
+    # Load data (replace with actual data loading)
+    data_ranking_small = {
+        "股票名称": ["重庆钢铁", "中远海发", "中国一重", "招商南油", "海油发展"],
+        "股票代码": ["601005.SHA", "601866.SHA", "601106.SHA", "601975.SHA", "600968.SHA"],
+        "因子值": [1.9020, 2.5748, 2.8763, 2.8843, 2.9370]
+    }
 
+    data_ranking_large = {
+        "股票名称": ["辣园股份", "长春高新", "福耀玻璃", "万华化学", "平安银行"],
+        "股票代码": ["600655.SHA", "000661.SZA", "600660.SHA", "600309.SHA", "000001.SZA"],
+        "因子值": [1591.9062, 1640.4613, 1737.8302, 1768.4532, 1776.9872]
+    }
 
-    # 假设我们有一个包含因子数据的数据框
-    import streamlit as st
-    import pandas as pd
-    import numpy as np
-    import altair as alt
-    from datetime import datetime
+    data_performance = {
+        "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
+        "1分位数": [1.25 + 0.01 * i for i in range(365)],
+        "2分位数": [1.27 + 0.01 * i for i in range(365)],
+        "3分位数": [1.28 + 0.01 * i for i in range(365)],
+        "4分位数": [1.27 + 0.01 * i for i in range(365)],
+        "5分位数": [1.28 + 0.01 * i for i in range(365)],
+        "最小-最大分位": [0.98 + 0.01 * i for i in range(365)]
+    }
 
-    # Sample data generation
-    np.random.seed(0)
-    dates = pd.date_range(start='2023-01-01', periods=100)
-    data = pd.DataFrame({
-        'Date': dates,
-        'Factor1': np.random.randn(100).cumsum(),
-        'Factor2': np.random.randn(100).cumsum(),
-        'Factor3': np.random.randn(100).cumsum(),
-    })
+    # Ensure all arrays are the same length
+    min_length = min(len(data_performance[col]) for col in data_performance)
+    for col in data_performance:
+        data_performance[col] = data_performance[col][:min_length]
 
-    # Sidebar for selecting chart type and factors
-    st.sidebar.title('Settings')
-    chart_type = st.sidebar.selectbox('Select chart type', ['Line Chart', 'Bar Chart', 'Scatter Plot'])
-    factors = st.sidebar.multiselect('Select factors', ['Factor1', 'Factor2', 'Factor3'], ['Factor1'])
+    df_small = pd.DataFrame(data_ranking_small)
+    df_large = pd.DataFrame(data_ranking_large)
+    df_performance = pd.DataFrame(data_performance)
 
-    # Sidebar for filtering data
-    st.sidebar.title('Filter Data')
-    start_date = st.sidebar.date_input('Start date', dates[0])
-    end_date = st.sidebar.date_input('End date', dates[-1])
+    # Streamlit layout
+    st.title("因子值排名和表现概览")
 
-    # Filter data based on date input
-    filtered_data = data[(data['Date'] >= pd.to_datetime(start_date)) & (data['Date'] <= pd.to_datetime(end_date))]
+    # Display performance chart
+    st.header("因子表现概览")
 
-    # Sidebar for search functionality
-    st.sidebar.title('Search')
-    search_query = st.sidebar.text_input('Enter search query')
+    chart_type = st.selectbox("选择图表类型", ["折线图", "柱状图", "散点图"])
 
-    # Main area for displaying charts
-    st.title('Factor Dashboard')
+    if chart_type == "折线图":
+        chart = alt.Chart(df_performance.melt('date')).mark_line().encode(
+            x='date:T',
+            y='value:Q',
+            color='variable:N'
+        ).properties(title='因子表现折线图')
+    elif chart_type == "柱状图":
+        chart = alt.Chart(df_performance.melt('date')).mark_bar().encode(
+            x='date:T',
+            y='value:Q',
+            color='variable:N'
+        ).properties(title='因子表现柱状图')
+    elif chart_type == "散点图":
+        chart = alt.Chart(df_performance.melt('date')).mark_point().encode(
+            x='date:T',
+            y='value:Q',
+            color='variable:N'
+        ).properties(title='因子表现散点图')
 
-    if chart_type == 'Line Chart':
-        for factor in factors:
-            st.line_chart(filtered_data[['Date', factor]].set_index('Date'))
-    elif chart_type == 'Bar Chart':
-        for factor in factors:
-            st.bar_chart(filtered_data[['Date', factor]].set_index('Date'))
-    elif chart_type == 'Scatter Plot':
-        for factor in factors:
-            st.altair_chart(alt.Chart(filtered_data).mark_circle().encode(
-                x='Date',
-                y=factor,
-                tooltip=['Date', factor]
-            ).interactive())
+    st.altair_chart(chart, use_container_width=True)
 
-    # Display filtered data in a table
-    st.write('Filtered Data', filtered_data)
+    # Display dynamic stock graphs section
+    st.header("其他股票图表展示")
 
-    # Display search results if search query is provided
-    if search_query:
-        search_results = filtered_data[
-            filtered_data.apply(lambda row: search_query.lower() in row.to_string().lower(), axis=1)]
-        st.write('Search Results', search_results)
+    other_stocks_data = {
+        "stock1": {
+            "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
+            "value": [1.1 + 0.02 * i for i in range(365)]
+        },
+        "stock2": {
+            "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
+            "value": [1.2 + 0.015 * i for i in range(365)]
+        },
+        "stock3": {
+            "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
+            "value": [1.15 + 0.018 * i for i in range(365)]
+        }
+    }
 
-    # Add interactive elements using Altair for more customization
-    st.altair_chart(alt.Chart(filtered_data).transform_fold(
-        factors,
-        as_=['Factor', 'Value']
-    ).mark_line().encode(
-        x='Date:T',
-        y='Value:Q',
-        color='Factor:N',
-        tooltip=['Date:T', 'Factor:N', 'Value:Q']
-    ).interactive())
+    # Ensure all arrays in other_stocks_data have the same length
+    for stock in other_stocks_data:
+        min_length = min(len(other_stocks_data[stock][col]) for col in other_stocks_data[stock])
+        for col in other_stocks_data[stock]:
+            other_stocks_data[stock][col] = other_stocks_data[stock][col][:min_length]
 
-    # Additional customizations and features
-    st.sidebar.title('Additional Settings')
-    enable_advanced_features = st.sidebar.checkbox('Enable advanced features')
-    if enable_advanced_features:
-        st.write('Advanced features are enabled!')
-        # Add more advanced features here
+    placeholder = st.empty()
+
+    # Create a queue for chart updates
+    chart_queue = queue.Queue()
+    stop_event = threading.Event()
+
+    # Create a thread for generating charts
+    chart_thread = threading.Thread(target=generate_charts, args=(chart_queue, other_stocks_data, stop_event))
+    chart_thread.start()
+
+    # Display rankings
+    st.header("因子值最小的20只股票 (2019-12-30)")
+    st.table(df_small)
+
+    st.header("因子值最大的20只股票 (2019-12-30)")
+    st.table(df_large)
+
+    # Process chart updates from the queue
+    while True:
+        chart = chart_queue.get()
+        if chart is None:
+            break
+        with placeholder.container():
+            st.altair_chart(chart, use_container_width=True)
+        time.sleep(1)  # Ensure the app keeps updating
+
+if __name__ == "__main__":
+    try:
+        dashboard()
+    finally:
+        stop_event.set()
