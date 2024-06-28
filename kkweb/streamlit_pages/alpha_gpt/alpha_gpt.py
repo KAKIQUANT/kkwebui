@@ -1,6 +1,5 @@
 import os
 import streamlit as st
-import logging
 import time
 from loguru import logger
 from openai import OpenAI
@@ -9,8 +8,7 @@ from langchain_community.adapters.openai import convert_openai_messages
 import json
 
 # Set up OpenAI API key
-os.environ['OPENAI_API_KEY'] = ''
-KEY = os.environ['OPENAI_API_KEY']
+API_KEY = os.environ['OPENAI_API_KEY']
 
 # Initialize OpenAI client
 client = OpenAI(
@@ -36,7 +34,7 @@ class FactorGPTAgent:
         }
         self.model = ChatOpenAI(
             temperature=0,
-            openai_api_key=KEY.strip(),
+            api_key=API_KEY,
             model='moonshot-v1-8k',
             base_url="https://api.moonshot.cn/v1",
             max_retries=1,

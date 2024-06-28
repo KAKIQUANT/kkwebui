@@ -1,6 +1,6 @@
 import pandas as pd
 import akshare as ak
-from config import DATA_DIR
+from kkweb.config import DATA_DIR
 
 
 def load_astock_index(symbol):

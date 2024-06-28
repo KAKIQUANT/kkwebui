@@ -7,7 +7,7 @@ from datetime import datetime
 import requests
 from tqdm import tqdm
 import abc
-from datafeed.expr import calc_expr
+from kkweb.datafeed.expr import calc_expr
 
 
 class Dataloader:

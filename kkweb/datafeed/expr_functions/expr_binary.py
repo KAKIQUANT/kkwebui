@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from datafeed.expr_functions import calc_by_symbol
+from .expr_utils import calc_by_symbol
 
 
 @calc_by_symbol

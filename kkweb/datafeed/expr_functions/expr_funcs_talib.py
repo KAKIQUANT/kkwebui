@@ -1,6 +1,6 @@
 import pandas as pd
 import talib
-from datafeed.expr_functions.expr_utils import calc_by_symbol
+from .expr_utils import calc_by_symbol
 
 @calc_by_symbol
 def bbands_up(close, timeperiod=20, nbdevup=2, nbdevdn=2):

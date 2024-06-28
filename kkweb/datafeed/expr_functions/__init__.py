@@ -6,7 +6,10 @@ from .expr_unary_rolling import *
 from .expr_binary_rolling import *
 from .expr_funcs_talib import *
 from .expr_others import *
-
+from . import expr_binary
+from . import expr_unary
+from . import expr_unary_rolling
+from . import expr_binary_rolling
 
 def Sub(left, right):
     return left - right
@@ -37,8 +40,8 @@ def list_funcs(mod):
         funcs.append(name)
     return funcs
 
-
-unary_funcs = list_funcs(expr_unary)
 binary_funcs = list_funcs(expr_binary)
+unary_funcs = list_funcs(expr_unary)
+
 unary_rolling_funcs = list_funcs(expr_unary_rolling)
 binary_roilling_funcs = list_funcs(expr_binary_rolling)

@@ -8,9 +8,6 @@ from langgraph.graph import Graph, END
 from agents.factor_gpt import FactorGPTAgent
 from agents.eval_gpt import EvalGPTAgent
 import os
-os.environ['OPENAI_API_KEY'] = ''
-
-# 这里配置自己的KIMI_KEY，可以持续化在系统用户变量里。
 
 workflow = Graph()
 workflow.add_node("factor", FactorGPTAgent().run)
