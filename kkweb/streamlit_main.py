@@ -7,6 +7,7 @@ from streamlit_pages.alpha_gpt import alpha_gpt
 from streamlit_pages.page_analysis import build_page
 from streamlit_pages import page_create_task
 from streamlit_pages.factor_dashboard import dashboard
+from streamlit_pages.factor_database import database
 import os
 from config import DATA_DIR
 from task import task_from_json
@@ -50,9 +51,11 @@ if choose == '创建策略向导':
 
 elif choose == "创建策略向导":
     strategies()
-
+elif choose == "因子数据库":
+    database()
 elif choose == "AI因子挖掘助手":
     alpha_gpt.main()
+# elif choose == "策略集合"
 
 else:
-    st.write("页面开发中...")
+    pass
