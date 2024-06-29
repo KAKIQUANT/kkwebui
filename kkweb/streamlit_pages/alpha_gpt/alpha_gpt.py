@@ -12,7 +12,7 @@ API_KEY = os.environ['OPENAI_API_KEY']
 
 # Initialize OpenAI client
 client = OpenAI(
-    api_key=KEY,
+    api_key=API_KEY,
     base_url="https://api.moonshot.cn/v1",
 )
 

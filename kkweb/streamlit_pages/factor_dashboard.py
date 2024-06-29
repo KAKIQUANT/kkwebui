@@ -5,7 +5,7 @@ import altair as alt
 import time
 import threading
 import queue
-
+from streamlit_pages import single_factor_analysis
 def generate_charts(chart_queue, other_stocks_data, stop_event):
     while not stop_event.is_set():
         for stock, data in other_stocks_data.items():
@@ -81,6 +81,8 @@ def dashboard():
         ).properties(title='因子表现散点图')
 
     st.altair_chart(chart, use_container_width=True)
+    if st.button('know more'):
+        single_factor_analysis.build_page()
 
     # Display dynamic stock graphs section
     st.header("其他股票图表展示")

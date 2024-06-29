@@ -4,6 +4,7 @@ import os
 from datafeed.dataloader import CSVDataloader
 from datafeed.alphalens.streamit_tears import create_full_tear_sheet
 from datafeed.alphalens.utils import get_clean_factor_and_forward_returns
+
 def build_page():
     instru = DATA_DIR.joinpath('instruments')
 
@@ -23,10 +24,6 @@ def build_page():
         factor_df.set_index([factor_df.index, 'symbol'], inplace=True)
         close_df = df.pivot_table(values='close', index='date', columns='symbol')
 
-
-
         results = get_clean_factor_and_forward_returns(factor_df, close_df)
-
-
 
         create_full_tear_sheet(results)

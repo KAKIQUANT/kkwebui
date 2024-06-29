@@ -3,11 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import altair as alt
-def database():
-    # Sample data
-    import streamlit as st
-    import pandas as pd
 
+def database():
     # Sample data to mimic the extended dataset
     data = {
         "因子名": ["Alpha191因子第154个", "全天特大单主动买入", "Alpha191因子第17个", "Alpha191因子第123个",
@@ -43,39 +40,16 @@ def database():
     # Streamlit app layout
     st.title('因子数据库')
 
+    # Sidebar for filter options
+    st.sidebar.title('筛选条件')
+
+    factor_type = st.sidebar.selectbox('选择目录', ['系统因子', '社区因子'])
+
+    filter_column = st.sidebar.selectbox('筛选列', df.columns.tolist())
+    filter_condition = st.sidebar.selectbox('筛选条件', ['大于', '小于', '等于'])
+    filter_value = st.sidebar.text_input('筛选值')
 
 
-
-    # Filter options
-
-    factor_type = st.selectbox('选择目录', ['系统因子', '社区因子'])
-
-    filter_column = st.selectbox('筛选列', df.columns.tolist())
-    filter_condition = st.selectbox('筛选条件', ['大于', '小于', '等于'])
-    filter_value = st.text_input('筛选值')
-    if factor_type == '系统因子':
-
-        label = '请问您喜欢吃什么水果'
-        opt = ('橘子', '苹果')
-
-        help = '选择您喜欢吃的水果'
-
-    else:
-
-        label = '请问您喜欢吃什么水果'
-        opt = ('橘子', '苹果', '香蕉', '草莓', '葡萄')
-
-        help = '选择您喜欢吃的水果'
-
-    options = st.multiselect(
-        label=label,
-        options=opt,
-
-        help='选择您喜欢吃的水果'
-    )
-
-    st.write('您喜欢吃的是', options)
-    # Apply filters
     if filter_value:
         try:
             filter_value = float(filter_value)
@@ -91,8 +65,8 @@ def database():
         filtered_df = df
 
     # Sorting options
-    sort_column = st.selectbox('排序列', df.columns.tolist())
-    ascending = st.checkbox('升序排列', value=True)
+    sort_column = st.sidebar.selectbox('排序列', df.columns.tolist())
+    ascending = st.sidebar.checkbox('升序排列', value=True)
 
     # Sort the data
     sorted_df = filtered_df.sort_values(by=sort_column, ascending=ascending)
@@ -116,10 +90,13 @@ def database():
         st.dataframe(comparison_df)
 
     # Placeholder buttons (functionality to be implemented)
-    st.button('一键生成策略')
+    # st.button('一键生成策略')
     st.button('因子绩效对比')
 
     # Clear filter conditions
     if st.button('清空条件'):
         st.experimental_rerun()
 
+# Run the Streamlit app
+if __name__ == '__main__':
+    database()

@@ -5,12 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_combination.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_display.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,7 +46,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/kkwebui/wheels&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/kkwebui/kkweb/streamlit_pages&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -43,7 +57,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\kkwebui\kkweb\streamlit_pages" />
       <recent name="D:\kkwebui\wheels" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\kkwebui\kkweb\streamlit_pages" />
     </key>
   </component>
   <component name="RunManager">
@@ -90,6 +108,9 @@
       <workItem from="1719112216388" duration="1173000" />
       <workItem from="1719114287819" duration="2658000" />
       <workItem from="1719334131678" duration="2164000" />
+      <workItem from="1719378970469" duration="27245000" />
+      <workItem from="1719625237495" duration="299000" />
+      <workItem from="1719646298211" duration="6531000" />
     </task>
     <servers />
   </component>
@@ -97,6 +118,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719366314990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719646308118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
   </component>
 </project>
