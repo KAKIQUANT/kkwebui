@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" afterDir="false" />
+    <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kkweb/data/instruments/中证小微盘.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kkweb/data/instruments/国际资产.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kkwebui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kkwebui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,25 +125,12 @@
       <workItem from="1719625237495" duration="299000" />
       <workItem from="1719646298211" duration="6531000" />
       <workItem from="1719815461332" duration="700000" />
-      <workItem from="1719817216668" duration="1973000" />
+      <workItem from="1719817216668" duration="1840000" />
     </task>
-    <task id="LOCAL-00001" summary="Changes">
-      <option name="closed" value="true" />
-      <created>1719819731298</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1719819731298</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main 覆盖结果" MODIFIED="1719818793057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
