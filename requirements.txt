@@ -17,4 +17,5 @@ langchain_community
 empyrical
 statsmodels
 IPython
-
+streamlit-ace
+streamlit_aggrid

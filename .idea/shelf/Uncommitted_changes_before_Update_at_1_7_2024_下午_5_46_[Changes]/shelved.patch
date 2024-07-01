@@ -1,0 +1,480 @@
+Index: kkweb/cfg/config_cn.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>app:\r\n  page_title: \"KAKIQUANT - 云端量化分析终端\"\r\n  page_icon: \":bar_chart:\"\r\n  layout: \"wide\"\r\n\r\ndata:\r\n  data_dir: \"/path/to/your/data\"\r\n\r\nsidebar:\r\n  options:\r\n    - name: \"因子数据看板\"\r\n      value: \"factor_data\"\r\n      icon: \"bar-chart\"\r\n    - name: \"AI因子挖掘助手\"\r\n      value: \"ai_factor\"\r\n      icon: \"boxes\"\r\n    - name: \"单因子分析\"\r\n      value: \"single_factor\"\r\n      icon: \"caret-right\"\r\n    - name: \"因子数据库\"\r\n      value: \"factor_database\"\r\n      icon: \"fingerprint\"\r\n    - name: \"创建策略向导\"\r\n      value: \"create_strategy\"\r\n      icon: \"tools\"\r\n    - name: \"策略集合\"\r\n      value: \"strategy_set\"\r\n      icon: \"chart-line\"\r\n#    - name: \"时间序列分析\"\r\n#      value: \"time_series\"\r\n#      icon: \"chart-bar\"\r\n#    - name: \"数据下载\"\r\n#      value: \"data_download\"\r\n#      icon: \"cloud-download\"\r\n#    - name: \"开通会员\"\r\n#      value: \"open_vip\"\r\n#      icon: \"credit-card\"\r\n#    - name: \"关于我们\"\r\n#      value: \"about_us\"\r\n#      icon: \"info-circle\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/kkweb/cfg/config_cn.yaml b/kkweb/cfg/config_cn.yaml
+--- a/kkweb/cfg/config_cn.yaml	(revision 256d6887246d821bcf3a5c227268786c720294a7)
++++ b/kkweb/cfg/config_cn.yaml	(date 1719820730803)
+@@ -28,13 +28,16 @@
+       icon: "chart-line"
+ #    - name: "时间序列分析"
+ #      value: "time_series"
+-#      icon: "chart-bar"
+-#    - name: "数据下载"
+-#      value: "data_download"
+-#      icon: "cloud-download"
++      icon: "chart-bar"
++    - name: "数据下载"
++      value: "data_download"
++      icon: "cloud-download"
+ #    - name: "开通会员"
+ #      value: "open_vip"
+ #      icon: "credit-card"
+ #    - name: "关于我们"
+ #      value: "about_us"
+ #      icon: "info-circle"
++    - name: "设置"
++      value: "settings"
++      icon: "settings"
+\ No newline at end of file
+Index: kkweb/streamlit_pages/strategy_display.py
+===================================================================
+diff --git a/kkweb/streamlit_pages/strategy_display.py b/kkweb/streamlit_pages/strategy_display.py
+deleted file mode 100644
+--- a/kkweb/streamlit_pages/strategy_display.py	(revision 256d6887246d821bcf3a5c227268786c720294a7)
++++ /dev/null	(revision 256d6887246d821bcf3a5c227268786c720294a7)
+@@ -1,57 +0,0 @@
+-import streamlit as st
+-import pandas as pd
+-import matplotlib.pyplot as plt
+-import numpy as np
+-
+-def strategy_display():
+-
+-
+-
+-    # 页眉
+-    st.title("勇者胜-1")
+-    st.write("全仓买入1支票，早盘买入，第二天尾盘卖出，股票为近10日内出现过涨停的股票，主要根据技术面指标研究的选股策略。单支票仓位较重，收益波动较大，高收益与高风险并存。")
+-
+-    # 筛选选项
+-    st.write("### 筛选时间")
+-    time_options = ["1月", "3月", "6月", "1年", "全部"]
+-    time_selection = st.selectbox("", time_options, index=4)
+-
+-    # 示例数据
+-    dates = pd.date_range(start="2023-06-01", periods=394, freq='D')
+-    strategy_returns = np.cumsum(np.random.randn(394)) / 100 + 1.75
+-    relative_returns = np.cumsum(np.random.randn(394)) / 100 + 1.5
+-    benchmark_returns = np.cumsum(np.random.randn(394)) / 100
+-
+-    # 策略收益图表
+-    st.write("### 策略收益图表")
+-    fig, ax = plt.subplots()
+-    ax.plot(dates, strategy_returns, label="策略收益率", color='red')
+-    ax.plot(dates, relative_returns, label="相对收益率", color='orange')
+-    ax.plot(dates, benchmark_returns, label="基准指数", color='blue')
+-    ax.fill_between(dates, strategy_returns, relative_returns, color='pink', alpha=0.3)
+-    ax.legend()
+-    st.pyplot(fig)
+-
+-    # 显示数值
+-    col1, col2, col3 = st.columns(3)
+-    with col1:
+-        st.metric(label="累计收益", value="175.45%")
+-        st.metric(label="年化收益", value="156.79%")
+-    with col2:
+-        st.metric(label="夏普比率", value="2.00")
+-        st.metric(label="今日收益", value="7.21%")
+-    with col3:
+-        st.metric(label="最大回撤", value="20.00%")
+-
+-    # 获取代码按钮
+-    st.button("获取代码")
+-
+-    # 策略作者
+-    st.write("#### 策略作者：boris58")
+-
+-    # 页脚
+-    st.write("### 其他信息")
+-    st.write("这里可以添加其他相关信息和功能。")
+-
+-if __name__ == "__main__":
+-    pass
+Index: kkweb/task.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import importlib\r\nfrom dataclasses import dataclass, field, asdict\r\n\r\nimport bt.algos\r\n\r\nimport algos_extend\r\nimport config\r\nfrom config import DATA_DIR\r\n# from kkdatac.dataloader import CSVDataloader\r\nimport json, uuid\r\n\r\n\r\n@dataclass\r\nclass Task:\r\n    _id: str = None\r\n    name: str = \"策略名称\"\r\n    desc: str = \"\"\r\n\r\n    # 标的池\r\n    symbols: list[str] = field(default_factory=list)\r\n\r\n    algo_period: str = \"RunDaily\"\r\n    algo_period_days: int = 20  # 仅当RunDays时需要\r\n\r\n    # 规则选标的：当rules_buy或rules_sell至少有一条规则时，添加SelectBySignal算子， 在SelectAll之后\r\n    rules_buy: list[str] = field(default_factory=list)  # roc(close,20)>0.08\r\n    at_least_buy: int = 1\r\n    rules_sell: list[str] = field(default_factory=list)  # roc(close,20)<0\r\n    at_least_sell: int = 1\r\n\r\n    # 排序算子： 当order_by不为空时，在选股之后，添加SelectTopK算子\r\n    order_by: str = \"\"  # 比如roc(close,20)，或者 roc(close,20)+ slope(close,20)\r\n    topK: int = 1\r\n    dropN: int = 0\r\n    b_ascending: bool = 0  # 默认降序, 0=False\r\n\r\n    # 仓位分配，默认等权\r\n    algo_weight: str = \"WeighEqually\"\r\n    algo_weight_fix: list = field(default_factory=list)  # 当WeightFix时需要\r\n\r\n    feature_names: list = field(default_factory=list)  # roc(close,20)\r\n    features: list = field(default_factory=list)  # roc_20\r\n\r\n    # 回测时用户可以改变的，不变就使用默认值，字符串为空表示不设置\r\n    start_date: str = \"20100101\"\r\n    end_date: str = \"\"\r\n    commission: float = 0.0001\r\n    slippage: float = 0.0001\r\n    init_cash: int = 100 * 10000\r\n    benchmark: str = \"510300.SH\"\r\n\r\n    def __str__(self):\r\n        return self.name\r\n\r\n    def load_datas(self):\r\n        logger.info(\"开始加载数据...\")  #\r\n        loader = CSVDataloader(\r\n            DATA_DIR.joinpath(\"universe\"),\r\n            self.symbols,\r\n            start_date=self.start_date,\r\n            end_date=self.end_date,\r\n        )\r\n        df = loader.load(fields=self.features, names=self.feature_names)\r\n        df[\"date\"] = df.index\r\n        df.dropna(inplace=True)\r\n        return df\r\n\r\n    def _parse_period(self):\r\n        module = importlib.import_module(\"bt.algos\")\r\n        if self.algo_period == \"RunEveryNPeriods\":\r\n            algo_period = getattr(module, self.algo_period)(self.algo_period_days)\r\n        else:\r\n            if self.algo_period in [\r\n                \"RunWeekly\",\r\n                \"RunOnce\",\r\n                \"RunMonthly\",\r\n                \"RunQuarterly\",\r\n                \"RunYearly\",\r\n            ]:\r\n                algo_period = getattr(module, self.algo_period)()\r\n            else:\r\n                algo_period = bt.algos.RunDaily()\r\n        return algo_period\r\n\r\n    def _parse_weights(self):\r\n        if self.algo_weight == \"WeighSpecified\":\r\n            return bt.algos.WeighSpecified(**self.algo_weight_fix)()\r\n        else:\r\n            module = importlib.import_module(\"bt.algos\")\r\n            algo_period = getattr(module, self.algo_weight)()\r\n            return algo_period\r\n\r\n    def get_algos(self, df_all):\r\n        algos = []\r\n        if self.algo_weight == \"WeighERC\":\r\n            algos.append(bt.algos.RunAfterDays(days=22 * 3))\r\n        algos.append(self._parse_period())\r\n\r\n        if len(self.rules_buy) or len(self.rules_sell):\r\n            algos.append(\r\n                algos_extend.SelectBySignal(\r\n                    df_all,\r\n                    rules_buy=self.rules_buy,\r\n                    buy_at_least_count=self.at_least_buy,\r\n                    rules_sell=self.rules_sell,\r\n                    sell_at_least_count=self.at_least_sell,\r\n                )\r\n            )\r\n        else:\r\n            algos.append(bt.algos.SelectAll())\r\n\r\n        if self.order_by and len(self.order_by):\r\n            signal = df_all.pivot_table(\r\n                values=self.order_by, index=df_all.index, columns=\"symbol\"\r\n            )\r\n            algos.append(algos_extend.SelectTopK(signal=signal, K=self.topK))\r\n\r\n        algos.append(self._parse_weights())\r\n        algos.append(bt.algos.Rebalance())\r\n        return algos\r\n\r\n    def to_json(self, name):\r\n        import json\r\n        from config import DATA_DIR\r\n\r\n        return asdict(self)\r\n        # with open(DATA_DIR.joinpath('tasks').joinpath(name + '.json'), \"w\", encoding='UTF-8') as f:\r\n        #    json.dump(asdict(self), f, ensure_ascii=False)\r\n\r\n\r\ndef task_from_json(name):\r\n    with open(DATA_DIR.joinpath(\"tasks\").joinpath(name), \"r\", encoding=\"UTF-8\") as f:\r\n        json_data = json.load(f)\r\n        return Task(**json_data)\r\n\r\n\r\ndef run_task(task):\r\n    import warnings\r\n\r\n    warnings.simplefilter(action=\"ignore\", category=FutureWarning)\r\n\r\n    df = CSVDataloader(config.DATA_DIR_QUOTES.resolve(), symbols=task.symbols).load(\r\n        task.features, task.feature_names\r\n    )\r\n    df.dropna(inplace=True)\r\n    df_close = df.pivot_table(values=\"close\", index=df.index, columns=\"symbol\")\r\n    df_close.dropna(inplace=True)\r\n\r\n    print(df_close)\r\n    s = bt.Strategy(task.name, task.get_algos(df))\r\n    s_bench = bt.Strategy(\r\n        \"等权-买入并持有\",\r\n        [\r\n            bt.algos.SelectAll(),\r\n            bt.algos.WeighEqually(),\r\n            bt.algos.Rebalance(),\r\n        ],\r\n    )\r\n\r\n    bkts = []\r\n    stras = [s, s_bench]\r\n    for stra in stras:\r\n        bkt = bt.Backtest(stra, df_close, progress_bar=True)\r\n        bkts.append(bkt)\r\n\r\n    if task.benchmark:\r\n        df_bench = CSVDataloader(\r\n            config.DATA_DIR_QUOTES.resolve(), symbols=[task.benchmark]\r\n        ).load()\r\n        df_bench_close = df_bench.pivot_table(\r\n            values=\"close\", index=df_bench.index, columns=\"symbol\"\r\n        )\r\n        df_bench_close.dropna(inplace=True)\r\n        bkts.append(\r\n            bt.Backtest(\r\n                bt.Strategy(\r\n                    \"基准\",\r\n                    [\r\n                        bt.algos.SelectAll(),\r\n                        bt.algos.WeighEqually(),\r\n                        bt.algos.Rebalance(),\r\n                    ],\r\n                ),\r\n                df_bench_close,\r\n            )\r\n        )\r\n\r\n    res = bt.run(*bkts)\r\n    return res\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    task = Task()\r\n    task._id = \"c087ca59-2345-4345-b3d5-12ac8fb1eeca\"\r\n    task.name = \"大小盘动量轮动\"\r\n    task.desc = \"沪深300与创业板 ETF的大小盘轮动，取动量大的持有。\"\r\n    task.symbols = [\"510300.SH\", \"159915.SZ\"]\r\n    task.features = [\"roc(close,20)\"]\r\n    task.feature_names = [\"roc_20\"]\r\n\r\n    task.rules_buy = [\"roc_20>0.02\"]\r\n    task.rules_sell = [\"roc_20<-0.02\"]\r\n    task.order_by = \"roc_20\"\r\n    task.algo_period = \"SelectAll\"\r\n    task.algo_weight = \"WeighEqually\"\r\n    task.benchmark = \"000300.SH\"\r\n\r\n    import uuid\r\n\r\n    # 生成一个随机的GUID\r\n    guid = uuid.uuid4()\r\n    if task._id == None:\r\n        task._id = str(guid)\r\n\r\n    from utils import mongo_utils\r\n    # mongo_utils.get_db()['tasks'].update_one({\"_id\": task._id},update={\"$set\":asdict(task)},upsert=True)\r\n\r\n    res = run_task(task)\r\n    df = res.prices\r\n    print(df)\r\n    df[\"id\"] = task._id\r\n    df[\"date\"] = df.index\r\n    df[\"date\"] = df[\"date\"].apply(lambda x: x.strftime(\"%Y%m%d\"))\r\n    df[\"_id\"] = task._id + \"_\" + df[\"date\"]\r\n\r\n    tb_equities = \"task_equities\"\r\n    mongo_utils.get_db()[tb_equities].delete_many({\"id\": task._id})\r\n    mongo_utils.write_df(tb_equities, df)\r\n\r\n    df_orders = res.get_transactions()\r\n\r\n    tb_orders = \"task_orders\"\r\n    mongo_utils.get_db()[tb_orders].delete_many({\"id\": task._id})\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/kkweb/task.py b/kkweb/task.py
+--- a/kkweb/task.py	(revision 256d6887246d821bcf3a5c227268786c720294a7)
++++ b/kkweb/task.py	(date 1719813139375)
+@@ -1,8 +1,6 @@
+ import importlib
+ from dataclasses import dataclass, field, asdict
+-
+ import bt.algos
+-
+ import algos_extend
+ import config
+ from config import DATA_DIR
+Index: kkweb/streamlit_pages/download_data.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/kkweb/streamlit_pages/download_data.py b/kkweb/streamlit_pages/download_data.py
+new file mode 100644
+--- /dev/null	(date 1719817771468)
++++ b/kkweb/streamlit_pages/download_data.py	(date 1719817771468)
+@@ -0,0 +1,129 @@
++import streamlit as st
++import pandas as pd
++import numpy as np
++import requests
++from io import BytesIO
++
++def download_data():
++    # 设置页面标题和描述
++    st.title("数据下载")
++    st.write("请从以下选项中选择所需的数据，并点击下载按钮获取文件。")
++
++    # 添加超链接和搜索引擎功能
++    st.markdown("""
++        [Streamlit Documentation](https://docs.streamlit.io/)
++        <br>
++        <form action="https://www.google.com/search" method="get" target="_blank">
++            <input type="text" name="q" placeholder="Search financial data" style="width: 300px; padding: 10px; font-size: 16px;">
++            <input type="submit" value="Search" style="padding: 10px 20px; font-size: 16px;">
++        </form>
++        <br>
++    """, unsafe_allow_html=True)
++
++    # 从 GitHub 加载数据
++    @st.cache_data
++    def load_data_from_github():
++        url = "https://raw.githubusercontent.com/KAKIQUANT/kkdatabase/main/sample_data.csv"
++        response = requests.get(url)
++        data = pd.read_csv(BytesIO(response.content))
++        return data
++
++    data = load_data_from_github()
++
++    # 显示数据列名以供确认
++    st.write("数据集中存在的列名：", data.columns.tolist())
++
++    # 检查数据集中是否存在 'category' 列
++    if 'category' in data.columns:
++        # 用户选择数据类别
++        st.subheader("选择数据类别")
++        data_categories = data['category'].unique()
++        selected_category = st.selectbox("选择类别", data_categories)
++
++        # 根据用户选择的类别过滤数据
++        filtered_data = data[data['category'] == selected_category]
++    else:
++        st.warning("数据集中不包含 'category' 列，将使用完整数据集。")
++        filtered_data = data
++
++    # 确认数据集中是否存在 'date' 列
++    if 'date' in filtered_data.columns:
++        # 用户选择数据的日期范围
++        st.subheader("选择日期范围")
++        date_range_option = st.selectbox("选择日期范围类型", ["天", "月", "年"])
++        if date_range_option == "天":
++            start_date = st.date_input("开始日期", value=pd.to_datetime("2023-01-01"))
++            end_date = st.date_input("结束日期", value=pd.to_datetime("2023-12-31"))
++        elif date_range_option == "月":
++            start_date = st.date_input("选择月份（开始）", value=pd.to_datetime("2023-01-01"))
++            end_date = st.date_input("选择月份（结束）", value=pd.to_datetime("2023-12-31"))
++            start_date = pd.to_datetime(start_date).replace(day=1)
++            end_date = pd.to_datetime(end_date).replace(day=1) + pd.offsets.MonthEnd(1)
++        else:
++            start_date = st.date_input("选择年份（开始）", value=pd.to_datetime("2023-01-01"))
++            end_date = st.date_input("选择年份（结束）", value=pd.to_datetime("2023-12-31"))
++            start_date = pd.to_datetime(start_date).replace(month=1, day=1)
++            end_date = pd.to_datetime(end_date).replace(month=12, day=31)
++
++        # 根据用户选择的日期范围过滤数据
++        filtered_data = filtered_data[
++            (filtered_data["date"] >= pd.to_datetime(start_date)) & (filtered_data["date"] <= pd.to_datetime(end_date))]
++    else:
++        st.warning("数据集中不包含 'date' 列，将无法按日期过滤数据。")
++
++    # 显示过滤后的数据
++    st.subheader("过滤后的数据预览")
++    st.dataframe(filtered_data)
++
++    # 数据下载功能
++    st.subheader("下载数据")
++    buffer = BytesIO()
++    filtered_data.to_csv(buffer, index=False)
++    buffer.seek(0)
++
++    st.download_button(
++        label="下载CSV文件",
++        data=buffer,
++        file_name="filtered_data.csv",
++        mime="text/csv"
++    )
++
++    # 使用CSS提升页面样式
++    st.markdown("""
++        <style>
++        .stButton>button {
++            background-color: #4CAF50;
++            color: white;
++            border: none;
++            padding: 15px 32px;
++            text-align: center;
++            text-decoration: none;
++            display: inline-block;
++            font-size: 16px;
++            margin: 4px 2px;
++            transition-duration: 0.4s;
++            cursor: pointer;
++        }
++        .stButton>button:hover {
++            background-color: white;
++            color: black;
++            border: 2px solid #4CAF50;
++        }
++        </style>
++    """, unsafe_allow_html=True)
++
++    # 高级图表展示
++    if 'date' in filtered_data.columns and 'value' in filtered_data.columns:
++        st.subheader("数据图表")
++        st.line_chart(filtered_data.set_index('date')["value"])
++    else:
++        st.warning("数据集中不包含 'date' 或 'value' 列，无法生成图表。")
++
++    # 添加交互式选项
++    st.sidebar.header("交互式选项")
++    show_data = st.sidebar.checkbox("显示原始数据", value=True)
++    if show_data:
++        st.sidebar.write(data)
++
++if __name__ == "__main__":
++    download_data()
+Index: kkweb/streamlit_main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import streamlit as st\r\nimport yaml\r\nfrom streamlit_option_menu import option_menu\r\nfrom streamlit_pages import create_task\r\nfrom streamlit_pages.strategies import strategies\r\nfrom streamlit_pages.alpha_gpt import alpha_gpt\r\nfrom streamlit_pages.page_analysis import build_page\r\nfrom streamlit_pages import page_create_task\r\nfrom streamlit_pages.factor_dashboard import dashboard\r\nfrom streamlit_pages.factor_database import database\r\nfrom streamlit_pages.strategy_combination import build_strategy\r\nimport os\r\nfrom config import DATA_DIR\r\nfrom task import task_from_json\r\nfrom streamlit_pages import single_factor_analysis\r\n\r\n# Function to load YAML configuration\r\ndef load_config(language):\r\n    with open(f\"cfg/config_{language}.yaml\", \"r\", encoding='utf-8') as f:\r\n        return yaml.safe_load(f)\r\n#\r\n# Set default language\r\ndefault_language = \"cn\"\r\n\r\n# Load configuration\r\nconfig = load_config(default_language)\r\n#\r\n# # Setup page config as the very first Streamlit command\r\n# st.set_page_config(\r\n#     page_title=config[\"app\"][\"page_title\"],\r\n#     page_icon=config[\"app\"][\"page_icon\"],\r\n#     layout=config[\"app\"][\"layout\"],\r\n# )\r\nsidebar_options = config[\"sidebar\"][\"options\"]\r\noption_names = [option[\"name\"] for option in sidebar_options]\r\noption_values = [option[\"value\"] for option in sidebar_options]\r\nicons = [option[\"icon\"] for option in sidebar_options]\r\n\r\nwith st.sidebar:\r\n    choose = option_menu(config[\"app\"][\"page_title\"], option_names, icons=icons)\r\n    create_task.show_tasks()\r\n\r\nif choose == \"单因子分析\":\r\n    single_factor_analysis.build_page()\r\nif choose == \"因子数据看板\":\r\n    dashboard()\r\nif choose == '时间序列分析':\r\n    build_page()\r\n\r\nif choose == '创建策略向导':\r\n    page_create_task.build()\r\n\r\nelif choose == \"创建策略向导\":\r\n    strategies()\r\nelif choose == \"因子数据库\":\r\n    database()\r\nelif choose == \"AI因子挖掘助手\":\r\n    alpha_gpt.main()\r\nelif choose == \"策略集合\":\r\n    build_strategy()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/kkweb/streamlit_main.py b/kkweb/streamlit_main.py
+--- a/kkweb/streamlit_main.py	(revision 256d6887246d821bcf3a5c227268786c720294a7)
++++ b/kkweb/streamlit_main.py	(date 1719816477167)
+@@ -9,6 +9,8 @@
+ from streamlit_pages.factor_dashboard import dashboard
+ from streamlit_pages.factor_database import database
+ from streamlit_pages.strategy_combination import build_strategy
++from streamlit_pages.drag_and_drop import drag_and_drop
++from streamlit_pages.download_data import download_data
+ import os
+ from config import DATA_DIR
+ from task import task_from_json
+@@ -18,19 +20,21 @@
+ def load_config(language):
+     with open(f"cfg/config_{language}.yaml", "r", encoding='utf-8') as f:
+         return yaml.safe_load(f)
+-#
++
+ # Set default language
+ default_language = "cn"
+ 
+ # Load configuration
+ config = load_config(default_language)
+-#
++
+ # # Setup page config as the very first Streamlit command
+ # st.set_page_config(
+ #     page_title=config["app"]["page_title"],
+ #     page_icon=config["app"]["page_icon"],
+ #     layout=config["app"]["layout"],
+ # )
++
++#sidebar construction
+ sidebar_options = config["sidebar"]["options"]
+ option_names = [option["name"] for option in sidebar_options]
+ option_values = [option["value"] for option in sidebar_options]
+@@ -42,19 +46,28 @@
+ 
+ if choose == "单因子分析":
+     single_factor_analysis.build_page()
+-if choose == "因子数据看板":
++
++elif choose == "因子数据看板":
+     dashboard()
+-if choose == '时间序列分析':
++
++elif choose == '时间序列分析':
+     build_page()
+ 
+-if choose == '创建策略向导':
++elif choose == '创建策略向导':
+     page_create_task.build()
+ 
+ elif choose == "创建策略向导":
+     strategies()
++
+ elif choose == "因子数据库":
+     database()
++
+ elif choose == "AI因子挖掘助手":
+     alpha_gpt.main()
++
+ elif choose == "策略集合":
+     build_strategy()
++elif choose == "开通会员":
++    drag_and_drop()
++elif choose == "数据下载":
++    download_data()
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"209892d4-1f23-45ad-a08a-87e2a19f7fae\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/strategy_combination.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/strategy_display.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/kkweb/streamlit_main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/kkweb/streamlit_main.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2iGLxcnOO08r9uERK5jRsOcmK1Q\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;D:/kkwebui/kkweb/streamlit_pages&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\kkwebui\\kkweb\\streamlit_pages\" />\r\n      <recent name=\"D:\\kkwebui\\wheels\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\kkwebui\\kkweb\\streamlit_pages\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\r\n      <module name=\"kkwebui\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"SDK_NAME\" value=\"Python 3.9 (Quantlab)\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/kkweb\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/kkweb/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"209892d4-1f23-45ad-a08a-87e2a19f7fae\" name=\"Changes\" comment=\"\" />\r\n      <created>1719112215320</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1719112215320</updated>\r\n      <workItem from=\"1719112216388\" duration=\"1173000\" />\r\n      <workItem from=\"1719114287819\" duration=\"2658000\" />\r\n      <workItem from=\"1719334131678\" duration=\"2164000\" />\r\n      <workItem from=\"1719378970469\" duration=\"27245000\" />\r\n      <workItem from=\"1719625237495\" duration=\"299000\" />\r\n      <workItem from=\"1719646298211\" duration=\"6531000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/kkwebui$main.coverage\" NAME=\"main Coverage Results\" MODIFIED=\"1719646308118\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/kkweb\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 256d6887246d821bcf3a5c227268786c720294a7)
++++ b/.idea/workspace.xml	(date 1719827214252)
+@@ -5,14 +5,14 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_combination.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_display.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/kkweb/__init__.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/download_data.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/drag_and_drop.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/kkweb/cfg/config_cn.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/cfg/config_cn.yaml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/kkweb/streamlit_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_main.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_display.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/kkweb/task.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/task.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -110,7 +110,8 @@
+       <workItem from="1719334131678" duration="2164000" />
+       <workItem from="1719378970469" duration="27245000" />
+       <workItem from="1719625237495" duration="299000" />
+-      <workItem from="1719646298211" duration="6531000" />
++      <workItem from="1719646298211" duration="11185000" />
++      <workItem from="1719765144092" duration="10586000" />
+     </task>
+     <servers />
+   </component>
+@@ -118,6 +119,6 @@
+     <option name="version" value="3" />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719646308118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
++    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719766262157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: kkweb/streamlit_pages/drag_and_drop.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/kkweb/streamlit_pages/drag_and_drop.py b/kkweb/streamlit_pages/drag_and_drop.py
+new file mode 100644
+--- /dev/null	(date 1719815529575)
++++ b/kkweb/streamlit_pages/drag_and_drop.py	(date 1719815529575)
+@@ -0,0 +1,89 @@
++import streamlit as st
++import streamlit.components.v1 as components
++def drag_and_drop():
++    # Define the drag and drop component
++    _drag_and_drop_html = """
++    <!DOCTYPE html>
++    <html lang="en">
++    <head>
++        <meta charset="UTF-8">
++        <title>Drag and Drop</title>
++        <style>
++            #draggable-elements {
++                display: flex;
++                flex-direction: column;
++                width: 200px;
++            }
++    
++            .draggable {
++                margin: 10px;
++                padding: 10px;
++                background-color: lightgrey;
++                border: 1px solid #ccc;
++                cursor: move;
++            }
++    
++            #drop-zone {
++                width: 100%;
++                min-height: 200px;
++                margin: 10px 0;
++                padding: 10px;
++                background-color: #f9f9f9;
++                border: 2px dashed #ccc;
++            }
++        </style>
++    </head>
++    <body>
++        <div id="draggable-elements">
++            <div class="draggable" draggable="true" ondragstart="drag(event)" id="element1">Strategy Component 1</div>
++            <div class="draggable" draggable="true" ondragstart="drag(event)" id="element2">Strategy Component 2</div>
++            <div class="draggable" draggable="true" ondragstart="drag(event)" id="element3">Strategy Component 3</div>
++        </div>
++        <div id="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
++            Drop components here to build your strategy
++        </div>
++        <script>
++            function allowDrop(event) {
++                event.preventDefault();
++            }
++    
++            function drag(event) {
++                event.dataTransfer.setData("text", event.target.id);
++            }
++    
++            function drop(event) {
++                event.preventDefault();
++                var data = event.dataTransfer.getData("text");
++                event.target.appendChild(document.getElementById(data));
++                updateDropZone();
++            }
++    
++            function updateDropZone() {
++                const dropZone = document.getElementById('drop-zone');
++                const components = Array.from(dropZone.children);
++                const componentIds = components.map(c => c.id).join(',');
++                window.parent.postMessage(componentIds, '*');
++            }
++        </script>
++    </body>
++    </html>
++    """
++
++    # Create the Streamlit app
++    st.title('Drag and Drop Strategy Builder')
++
++    # Embed the drag and drop HTML
++    components.html(_drag_and_drop_html, height=400)
++
++    # Listen for messages from the drag and drop component
++    component_ids = st.experimental_get_query_params().get('component_ids', [])
++
++    if component_ids:
++        st.write('You have selected the following components:')
++        st.write(component_ids)
++
++    st.markdown("""
++    <style>
++    footer {visibility: hidden;}
++    </style>
++    """, unsafe_allow_html=True)
+diff --git a/kkweb/__init__.py b/kkweb/__init__.py
+new file mode 100644
