@@ -16,6 +16,7 @@ pip install -r requirements.txt
 
 ## 安装 TA-Lib
 
+-windows用户：
 由于 TA-Lib 在某些平台上的安装可能会有问题，我们建议通过预编译的轮子文件进行安装。您可以在以下网址找到适合您平台的轮子文件：[https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib](https://www.lfd.uci.edu/~gohlke/pythonlibs/#ta-lib)
 
 下载相应的 `.whl` 文件后，使用 `pip` 安装（文件中已经提供相应轮子）：
@@ -25,6 +26,12 @@ pip install path/to/your/TA_Lib‑0.4.0‑cp39‑cp39‑win_amd64.whl
 ```
 
 将 `path/to/your/` 替换为您下载的 `.whl` 文件的实际路径。
+-对于 macOS/Linux 用户
+
+```bash
+brew install ta-lib
+pip install ta-lib
+```
 
 ## 配置 OpenAI API Key
 
