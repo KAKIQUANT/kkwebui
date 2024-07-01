@@ -17,7 +17,7 @@ def build_page():
     symbols = [s.replace('\n', '') for s in symbols]
     st.write(symbols)
     factor_expr = st.text_input('请输入因子表达式', value='roc(close,20)')
-    if st.button('加载数据并计算因子值'):
+    if st.button('分析'):
         loader = CSVDataloader(DATA_DIR.joinpath('quotes'), symbols)
         df = loader.load(fields=[factor_expr], names=['factor_name'])
         factor_df = df[['symbol', 'factor_name']]

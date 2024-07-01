@@ -1,0 +1,7 @@
+^NDX
+^TNX
+CL
+GDAXI
+GOLD
+HSI
+N225
