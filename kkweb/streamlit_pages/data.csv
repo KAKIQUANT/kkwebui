@@ -1,0 +1,8 @@
+,因子名,1年多头收益率,1月多头收益率,3月多头收益率,1年空头收益率,因子描述,起始时间,更新时间,IC,多头IC,多头Rank IC,空头IR,多空IR,多头换手率,空头换手率,多空换手率,比较基准,分组数量,股票池,3日多头IC
+0,Alpha1,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,0.03886610762297812,None,-0.0406221216690299,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+1,Alpha2,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,-0.004726346613616256,None,0.00745034577688503,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+2,Alpha6,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,0.02123231731016746,None,-0.018161233660514305,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+3,Alpha14,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,-0.025087272459281485,None,0.019638889209960014,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+4,Alpha15,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,0.0057353655307868295,None,-0.003452722943857523,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+5,Alpha18,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,-0.03043203290316965,None,0.0173846049933851,None,None,None,None,None,沪深300指数,5,沪深300成分股,None
+6,Alpha20,None,None,None,None,因子分类: Alpha191因子; 具体请参考https://bigquant.com/wiki/doc/alpha191-Pyf0TYya6H,2024-02-28,2024-07-01,-0.03215972684177052,None,0.019130007467491158,None,None,None,None,None,沪深300指数,5,沪深300成分股,None

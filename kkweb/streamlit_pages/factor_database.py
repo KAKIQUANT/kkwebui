@@ -1,8 +1,22 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import altair as alt
+
+def plot_comparison(df, factors):
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    for factor in factors:
+        factor_data = df[df['因子名'] == factor]
+        ax.plot(['1月多头收益率', '3月多头收益率', '1年多头收益率'],
+                factor_data[['1月多头收益率', '3月多头收益率', '1年多头收益率']].values.flatten(),
+                label=factor)
+
+    ax.set_xlabel('时间段')
+    ax.set_ylabel('收益率')
+    ax.set_title('因子收益率对比')
+    ax.legend()
+    st.pyplot(fig)
 
 def database():
     # Sample data to mimic the extended dataset
@@ -35,7 +49,21 @@ def database():
     }
 
     # Convert the data into a DataFrame
-    df = pd.DataFrame(data)
+    random = pd.DataFrame(data)
+    df = pd.read_csv('D:\kkwebui\kkweb\streamlit_pages\data.csv')
+    df['1年多头收益率'] = random['1年多头收益率']
+    df['1月多头收益率'] = random['1月多头收益率']
+    df['3月多头收益率'] = random['3月多头收益率']
+    df['1年空头收益率'] = random['1年空头收益率']
+    df['IC'] = df['IC']/100.0
+    df['多头Rank IC'] = df['多头Rank IC']/100.0
+    df['多头IC'] = random['多头IC']
+    df['空头IR'] = random['空头IR']
+    df['多头换手率'] = random["多头换手率"]
+    df["空头换手率"] = random["空头换手率"]
+    df["多空换手率"] = random["多空换手率"]
+    df["3日多头IC"] = random["3日多头IC"]
+    df['多空IR'] = random['多空IR']
 
     # Streamlit app layout
     st.title('因子数据库')
@@ -89,9 +117,9 @@ def database():
         comparison_df = sorted_df[sorted_df['因子名'].isin(selected_factors)]
         st.dataframe(comparison_df)
 
-    # Placeholder buttons (functionality to be implemented)
-    # st.button('一键生成策略')
-    st.button('因子绩效对比')
+    # Generate factor performance comparison chart
+    if st.button('因子绩效对比') and selected_factors:
+        plot_comparison(sorted_df, selected_factors)
 
     # Clear filter conditions
     if st.button('清空条件'):

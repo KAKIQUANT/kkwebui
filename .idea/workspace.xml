@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_combination.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/strategy_display.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/alpha_gpt/alpha_gpt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_dashboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/kkweb/streamlit_pages/single_factor_analysis.py" afterDir="false" />
-    </list>
+    <list default="true" id="209892d4-1f23-45ad-a08a-87e2a19f7fae" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,23 +31,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/kkwebui/kkweb/streamlit_pages&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Run",
+    "Python.python_online.executor": "Run",
+    "Python.streamlit_main.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/kkwebui/kkweb/data/basic",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\kkwebui\kkweb\data\basic" />
+      <recent name="D:\kkwebui" />
       <recent name="D:\kkwebui\kkweb\streamlit_pages" />
       <recent name="D:\kkwebui\wheels" />
     </key>
@@ -81,6 +78,30 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/kkweb/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="python_online" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="kkwebui" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.9 (Quantlab)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/kkweb/streamlit_pages" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/kkweb/streamlit_pages/python_online.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -117,7 +138,21 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kkweb/streamlit_pages/factor_database.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719646308118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+    <SUITE FILE_PATH="coverage/kkwebui$main.coverage" NAME="main Coverage Results" MODIFIED="1719847679262" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+    <SUITE FILE_PATH="coverage/kkwebui$streamlit_main.coverage" NAME="streamlit_main Coverage Results" MODIFIED="1719847661867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb" />
+    <SUITE FILE_PATH="coverage/kkwebui$python_online.coverage" NAME="python_online Coverage Results" MODIFIED="1719847526892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb/streamlit_pages" />
+    <SUITE FILE_PATH="coverage/kkwebui$test.coverage" NAME="test Coverage Results" MODIFIED="1719849707153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/kkweb/streamlit_pages" />
   </component>
 </project>

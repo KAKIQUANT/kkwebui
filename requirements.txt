@@ -19,3 +19,4 @@ statsmodels
 IPython
 streamlit-ace
 streamlit_aggrid
+streamlit_autorefresh

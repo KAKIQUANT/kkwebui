@@ -6,6 +6,7 @@ import time
 import threading
 import queue
 from streamlit_pages import single_factor_analysis
+
 def generate_charts(chart_queue, other_stocks_data, stop_event):
     while not stop_event.is_set():
         for stock, data in other_stocks_data.items():
@@ -14,6 +15,20 @@ def generate_charts(chart_queue, other_stocks_data, stop_event):
                 x='date:T',
                 y='value:Q'
             ).properties(title=f'{stock}表现折线图')
+            chart_queue.put(chart)
+            time.sleep(5)
+            if stop_event.is_set():
+                break
+    chart_queue.put(None)  # Signal the end of chart generation
+
+def generate_other_charts(chart_queue, other_data, stop_event):
+    while not stop_event.is_set():
+        for name, data in other_data.items():
+            df_other = pd.DataFrame(data)
+            chart = alt.Chart(df_other).mark_bar().encode(
+                x='date:T',
+                y='value:Q'
+            ).properties(title=f'{name} 表现柱状图')
             chart_queue.put(chart)
             time.sleep(5)
             if stop_event.is_set():
@@ -34,14 +49,16 @@ def dashboard():
         "因子值": [1591.9062, 1640.4613, 1737.8302, 1768.4532, 1776.9872]
     }
 
+    yz = pd.read_csv('D:\\kkwebui\\kkweb\\streamlit_pages\\因子数据.csv')
+    yz = yz.iloc[:243]
     data_performance = {
-        "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
-        "1分位数": [1.25 + 0.01 * i for i in range(365)],
-        "2分位数": [1.27 + 0.01 * i for i in range(365)],
-        "3分位数": [1.28 + 0.01 * i for i in range(365)],
-        "4分位数": [1.27 + 0.01 * i for i in range(365)],
-        "5分位数": [1.28 + 0.01 * i for i in range(365)],
-        "最小-最大分位": [0.98 + 0.01 * i for i in range(365)]
+        "date": pd.date_range(start="2024-02-28", end="2024-07-01", freq='D'),
+        "600196.XSHG": yz['600196.XSHG'].to_list(),
+        "600703.XSHG": yz['600703.XSHG'].to_list(),
+        "601088.XSHG": yz['601088.XSHG'].to_list(),
+        "601108.XSHG": yz['601108.XSHG'].to_list(),
+        "601398.XSHG": yz['601398.XSHG'].to_list(),
+        "000625.XSHE": yz['000625.XSHE'].to_list()
     }
 
     # Ensure all arrays are the same length
@@ -87,18 +104,27 @@ def dashboard():
     # Display dynamic stock graphs section
     st.header("其他股票图表展示")
 
+    zz = pd.read_csv('D:\\kkwebui\\kkweb\\streamlit_pages\\(中证800)_副本.csv', usecols=['date', 'close'])
+    zz = zz[(zz['date'] >= '2019-01-01') & (zz['date'] <= '2019-12-30')]
     other_stocks_data = {
-        "stock1": {
+        "中证800": {
             "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
-            "value": [1.1 + 0.02 * i for i in range(365)]
+            "value": zz['close'].tolist()
+        }
+    }
+
+    other_data = {
+        "假数据1": {
+            "date": pd.date_range(start="2024-01-01", end="2024-06-30", freq='D'),
+            "value": np.random.rand(181).tolist()
         },
-        "stock2": {
-            "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
-            "value": [1.2 + 0.015 * i for i in range(365)]
+        "假数据2": {
+            "date": pd.date_range(start="2024-01-01", end="2024-06-30", freq='D'),
+            "value": np.random.rand(181).tolist()
         },
-        "stock3": {
-            "date": pd.date_range(start="2019-01-01", end="2019-12-30", freq='D'),
-            "value": [1.15 + 0.018 * i for i in range(365)]
+        "假数据3": {
+            "date": pd.date_range(start="2024-01-01", end="2024-06-30", freq='D'),
+            "value": np.random.rand(181).tolist()
         }
     }
 
@@ -108,15 +134,19 @@ def dashboard():
         for col in other_stocks_data[stock]:
             other_stocks_data[stock][col] = other_stocks_data[stock][col][:min_length]
 
-    placeholder = st.empty()
+    placeholder1 = st.empty()
+    placeholder2 = st.empty()
 
-    # Create a queue for chart updates
-    chart_queue = queue.Queue()
+    # Create queues for chart updates
+    chart_queue1 = queue.Queue()
+    chart_queue2 = queue.Queue()
     stop_event = threading.Event()
 
-    # Create a thread for generating charts
-    chart_thread = threading.Thread(target=generate_charts, args=(chart_queue, other_stocks_data, stop_event))
-    chart_thread.start()
+    # Create threads for generating charts
+    chart_thread1 = threading.Thread(target=generate_charts, args=(chart_queue1, other_stocks_data, stop_event))
+    chart_thread2 = threading.Thread(target=generate_other_charts, args=(chart_queue2, other_data, stop_event))
+    chart_thread1.start()
+    chart_thread2.start()
 
     # Display rankings
     st.header("因子值最小的20只股票 (2019-12-30)")
@@ -125,13 +155,16 @@ def dashboard():
     st.header("因子值最大的20只股票 (2019-12-30)")
     st.table(df_large)
 
-    # Process chart updates from the queue
+    # Process chart updates from the queues
     while True:
-        chart = chart_queue.get()
-        if chart is None:
+        chart1 = chart_queue1.get()
+        chart2 = chart_queue2.get()
+        if chart1 is None or chart2 is None:
             break
-        with placeholder.container():
-            st.altair_chart(chart, use_container_width=True)
+        with placeholder1.container():
+            st.altair_chart(chart1, use_container_width=True)
+        with placeholder2.container():
+            st.altair_chart(chart2, use_container_width=True)
         time.sleep(1)  # Ensure the app keeps updating
 
 if __name__ == "__main__":
